@@ -1,0 +1,21 @@
+{
+  "name": "@arccosgolf/python-runner",
+  "version": "0.0.1",
+  "description": "Run python scripts from NodeJS",
+  "main": "index.js",
+  "dependencies": {
+    "async": "^2.5.0",
+    "child_process": "^1.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "python",
+    "bridge"
+  ],
+  "author": "Kyle Steger",
+  "license": "ISC"
+}
