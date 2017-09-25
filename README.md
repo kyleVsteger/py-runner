@@ -1,12 +1,18 @@
-Usage:
+##Why I made this package:
+This package was created to quickly bridge a set of Python machine learning models with a NodeJS service.
+This solution works, but there is an inherent cost to spinning up the Python processes. 
+For applications that are not time sensitive this solution will work and requires little modification to an existing Python script.
+Since we're working with std.in/out, be aware that any `print` lines in your Python file will be piped to the `PyPool.execute` callback.
 
 ##Sample JS File
 ```javascript
 const PyPool = require('py-runner');
-const pool = new PyPool({count: 5, script:'/path/to/your/script.py'}); // creates a pool of five readily available processes running the same script
+// creates a pool of five readily available processes running the same script
+const pool = new PyPool({count: 5, script:'/path/to/your/script.py'}); 
 const args = [1,2,3,4,5];
-pool.execute(args, result =>{ // takes and available process and executes with args
-	console.log(result); // return from script
+// takes an available process and executes with args
+pool.execute(args, result =>{ 
+	console.log(result); // print value from python file
 });
 ```
 
