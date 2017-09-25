@@ -1,6 +1,6 @@
 {
   "name": "py-runner",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Run python scripts from NodeJS",
   "main": "index.js",
   "dependencies": {
