@@ -1,48 +1,48 @@
-var spawn = require('child_process').spawn,
-	async = require('async');
-
+'use strict';
+const spawn = require('child_process').spawn;
 
 class PythonRunner {
 	constructor(opts) {
 		this.py = {};
-		opts.forEach((unit, i) => {
-			this.py[unit.name] = {};
-			this.py[unit.name].process = spawn('python', [unit.script]);
-			this.py[unit.name].args = JSON.stringify(unit.args);
-		});
-	}
-	execute(callback) {
-		const self = this;
-		const asyncFuncs = {};
-		const pyKeys = Object.keys(self.py);
-		pyKeys.forEach(pk => {
-			asyncFuncs[pk] = asyncCallback => {
-				let rs = '';
-				self.py[pk].process.stdout.on('data', (data) => {
-					rs += data.toString();
-				});
-				self.py[pk].process.stdout.on('end', () => {
-					return asyncCallback(null, rs);
-				});
-
-				self.py[pk].process.stdin.write(self.py[pk].args);
-				self.py[pk].process.stdin.end();
-			};
-		});
-		async.parallel(asyncFuncs, (err, res) => {
-			return callback(res);
-		});
+		this.script = opts.script;
+		this.py.process = spawn('python', [opts.script]);
 	}
 }
 
-// let options = [
-// 	{ name: 'parThreeHoleScore', script: './test.py', args: [1, 2, 3, 4, 5] },
-// 	{ name: 'parThreeParOdds', script: './testTwo.py', args: [1, 2] }
-// ]
 
-// let script1 = new PythonRunner(options);
-// script1.execute((res) => {
-// 	console.log(res);
-// });
 
-module.exports = PythonRunner;
+class PyPool {
+	constructor(opts) {
+		this.last = 0;
+		this.scripts = [];
+		let i = 0;
+		while (i < opts.count) {
+			this.scripts.push(new PythonRunner(opts));
+			i++;
+		}
+	}
+
+	execute(args, callback) {
+		const runner = this.getRunner();
+		args = JSON.stringify(args);
+		let result = '';
+		runner.py.process.stdout.on('data', (data) => {
+			// console.log(data.toString());
+			result += data.toString();
+		});
+		runner.py.process.stdout.on('end', () => {
+			runner.py.process = spawn('python', [runner.script]);
+			callback(result)
+		});
+		runner.py.process.stdin.write(args)
+		runner.py.process.stdin.end();
+	}
+
+	getRunner() {
+		this.last++;
+		this.last = this.last >= this.scripts.length - 1 ? 0 : this.last;
+		return this.scripts[this.last];
+	}
+}
+
+module.exports = PyPool

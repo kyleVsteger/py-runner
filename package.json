@@ -1,5 +1,5 @@
 {
-  "name": "@arccosgolf/python-runner",
+  "name": "py-runner",
   "version": "0.0.1",
   "description": "Run python scripts from NodeJS",
   "main": "index.js",
@@ -9,7 +9,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cd test/ && node test.js"
   },
   "keywords": [
     "node",
@@ -17,5 +17,12 @@
     "bridge"
   ],
   "author": "Kyle Steger",
-  "license": "ISC"
+  "license": "ISC",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none"
+  }
 }
