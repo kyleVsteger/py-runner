@@ -1,17 +1,18 @@
 Usage:
 
 ##Sample JS File
+```javascript
 const PyPool = require('py-runner');
 const pool = new PyPool({count: 5, script:'/path/to/your/script.py'}); // creates a pool of five readily available processes running the same script
 const args = [1,2,3,4,5];
 pool.execute(args, result =>{ // takes and available process and executes with args
 	console.log(result); // return from script
-});
+});```
 
 
 
 ##Sample Python File
-
+```python
 import sys
 import json
 import numpy as np
@@ -29,6 +30,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
-
-*/
+    main()```
