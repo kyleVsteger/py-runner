@@ -15,6 +15,7 @@ class PyPool {
 	constructor(opts) {
 		this.last = 0;
 		this.scripts = [];
+		opts.count = opts.count ? opts.count : 1;
 		let i = 0;
 		while (i < opts.count) {
 			this.scripts.push(new PythonRunner(opts));
