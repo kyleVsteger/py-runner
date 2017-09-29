@@ -13,6 +13,9 @@ class PythonRunner {
 
 class PyPool {
 	constructor(opts) {
+		if (!opts || !opts.script) {
+			throw new Error(`no options or script passed to PyPool constructor.\npass {script: '/path/to/script.py', count: Int (optional|default: 1)} as argument to constructor\n`)
+		}
 		this.last = 0;
 		this.scripts = [];
 		opts.count = opts.count ? opts.count : 1;
